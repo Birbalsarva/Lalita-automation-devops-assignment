@@ -18,11 +18,11 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // Copy your app to the EC2 instance using SCP or any other method
-                sh 'scp -i /path/to/your/keypair.pem -r your-app-directory ec2-user@your-ec2-instance-ip:/path/to/remote/directory'
+                // Copy your app to the EC2 instance using SCP
+                sh 'scp -i /home/ubuntu/ssh_key/Bs.key -r your-app-directory ubuntu@3.106.58.108:/path/to/remote/directory'
 
                 // SSH into the EC2 instance and start your app
-                sh 'ssh -i /path/to/your/keypair.pem ec2-user@your-ec2-instance-ip "cd /path/to/remote/directory && npm install && npm start"'
+                sh 'ssh -i /home/ubuntu/ssh_key/Bs.key ubuntu@3.106.58.108 "cd /path/to/remote/directory && npm install && npm start"'
             }
         }
     }
