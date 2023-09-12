@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout your code from Git
-                git branch: 'main', url: 'https://github.com/Birbalsarva/Lalita-automation-devops-assignment.git', executable: 'path/to/git'
+                git branch: 'main', url: 'https://github.com/Birbalsarva/Lalita-automation-devops-assignment.git'
 
             }
         }
