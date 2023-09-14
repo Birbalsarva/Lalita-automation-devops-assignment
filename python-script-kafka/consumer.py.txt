@@ -1,0 +1,26 @@
+from confluent_kafka import Consumer, KafkaError
+
+def consume_messages(topic):
+    consumer = Consumer({
+        'bootstrap.servers': 'your_kafka_broker',
+        'group.id': 'my_consumer_group',
+        'auto.offset.reset': 'earliest'
+    })
+    consumer.subscribe([topic])
+
+    while True:
+        msg = consumer.poll(1.0)
+
+        if msg is None:
+            continue
+        if msg.error():
+            if msg.error().code() == KafkaError._PARTITION_EOF:
+                print('Reached end of partition')
+            else:
+                print('Error: {}'.format(msg.error()))
+        else:
+            print('Received message: key={}, value={}'.format(msg.key(), msg.value()))
+
+if __name__ == "__main__":
+    kafka_topic = "your_topic_name"
+    consume_messages(kafka_topic)

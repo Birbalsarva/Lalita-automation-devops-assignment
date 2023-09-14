@@ -1,0 +1,22 @@
+from confluent_kafka import Producer
+
+def delivery_report(err, msg):
+    if err is not None:
+        print('Message delivery failed: {}'.format(err))
+    else:
+        print('Message delivered to {} [{}]'.format(msg.topic(), msg.partition()))
+
+def produce_messages(topic, num_messages=1000):
+    producer = Producer({'bootstrap.servers': 'your_kafka_broker'})
+
+    for i in range(1, num_messages + 1):
+        message = f'Message {i}'
+        producer.produce(topic, key=str(i), value=message, callback=delivery_report)
+        producer.poll(0.1)  # Poll for events
+
+    producer.flush()
+
+if __name__ == "__main__":
+    kafka_topic = "your_topic_name"
+    num_messages_to_produce = 1000
+    produce_messages(kafka_topic, num_messages_to_produce)
